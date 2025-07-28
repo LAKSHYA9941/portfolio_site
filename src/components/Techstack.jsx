@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import techsvg from '../assets/techsvg.svg'
 
 const skillSet = {
     Languages: [

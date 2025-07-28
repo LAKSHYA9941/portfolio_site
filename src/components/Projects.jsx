@@ -4,6 +4,8 @@ import { FiGithub, FiExternalLink } from 'react-icons/fi';
 import { SiMongodb, SiExpress, SiReact, SiTailwindcss, SiFirebase, SiTypescript } from 'react-icons/si';
 import Notemakerimg from '../assets/notemakeimg.jpeg'
 import Chaipng from '../assets/chaiproject.png'
+import Currconv from '../assets/currency_converter.png';
+
 const projects = [
   {
     name: 'Note-Maker',
@@ -43,6 +45,23 @@ const projects = [
     ],
     image: Chaipng || '../assets/chaiproject.png',
   },
+  {
+    name: 'Currency Converter',
+    tagline: 'Real-time currency exchange in a sleek, responsive UI.',
+    live: 'https://currency190.netlify.app',
+    repo: 'https://github.com/LAKSHYA9941/Currency-Converter',
+    stack: [
+      { icon: <SiReact className="text-[#61DAFB]" />, name: 'React + Vite' },
+      { icon: <SiTailwindcss className="text-[#06B6D4]" />, name: 'Tailwind CSS' },
+    ],
+    bullets: [
+      'Fetches live exchange rates via trusted API',
+      'Instant conversion while typing',
+      'Supports 150+ global currencies',
+      'Mobile-first responsive design',
+    ],
+    image: Currconv,
+  },
 ];
 
 export default function Projects() {
@@ -53,9 +72,6 @@ export default function Projects() {
       transition={{ duration: 0.8, ease: 'easeOut' }}
       className="max-w-5xl mx-auto px-4 py-6 overflow-y-auto scrollbar-hide"
     >
-      {/* <h2 className="text-3xl font-bold mb-4 text-slate-900 dark:text-slate-100">
-        Projects
-      </h2> */}
 
       <div className="space-y-6">
         {projects.map((p) => (

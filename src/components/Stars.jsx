@@ -48,7 +48,7 @@ const StarLayer = ({ count, size, speed }) => {
 
 export default function Stars() {
   return (
-    <div className="fixed inset-0 -z-1 pointer-events-none overflow-hidden ">
+    <div className="fixed inset-0 -z-10 pointer-events-none">
       <StarLayer count={700} size={1} speed={50} />
       <StarLayer count={200} size={2} speed={100} />
       <StarLayer count={100} size={3} speed={150} />

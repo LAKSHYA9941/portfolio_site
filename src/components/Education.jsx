@@ -11,7 +11,7 @@ function Education() {
             className="w-full max-w-2xl mx-auto p-8"
         >
             <section>
-                {/* <h2 className="text-2xl font-bold mb-4 text-center">Education</h2> */}
+                <h2 className="text-2xl font-bold mb-4 text-center">Education</h2>
                 <div className="space-y-4">
                     <div className="flex flex-col">
                         <h3 className="text-xl font-semibold">BCA – Maharaja Surajmal Institute</h3>
