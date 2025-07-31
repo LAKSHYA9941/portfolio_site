@@ -1,57 +1,54 @@
-import { useMemo } from "react";
+// Stars.jsx
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
 
-const random = (max) => Math.random() * max;
-
-const StarLayer = ({ count, size, speed }) => {
-  const stars = useMemo(() =>
-    Array.from({ length: count }).map(() => ({
-      left: `${random(100)}%`,
-      top: `${random(100)}%`,
-      width: `${size}px`,
-      height: `${size}px`,
-      animationDuration: `${speed}s`,
-      // random drift vector
-      x: random(30) - 15,  // ±15 px horizontal
-      y: random(30) - 15,  // ±15 px vertical
-    })),
-    [count, size, speed]
-  );
-
-  return (
-    <>
-      <style>{`
-        @keyframes drift {
-          0%   { transform: translate(0, 0)   rotate(0deg);   }
-          50%  { transform: translate(var(--dx), var(--dy)) rotate(180deg); }
-          100% { transform: translate(0, 0)   rotate(360deg); }
-        }
-      `}</style>
-      {stars.map((s, i) => (
-        <div
-          key={i}
-          className="absolute bg-white rounded-full "
-          style={{
-            left: s.left,
-            top: s.top,
-            width: s.width,
-            height: s.height,
-            animation: `drift ${s.animationDuration}s linear infinite`,
-            // CSS vars for random drift
-            "--dx": `${s.x}px`,
-            "--dy": `${s.y}px`,
-          }}
-        />
-      ))}
-    </>
-  );
-};
+const STAR_COLORS = ["#F0F8FF", "#E6F3FF", "#CCE5FF"];
+const SIZES = [3, 4, 6]; // px
 
 export default function Stars() {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    const makeStar = () => {
+      const star = document.createElement("div");
+      const size = SIZES[Math.floor(Math.random() * SIZES.length)];
+      const color = STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)];
+
+      star.className = "absolute rounded-full";
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+      star.style.backgroundColor = color;
+      star.style.boxShadow = `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}`;
+      star.style.filter = "blur(0.5px)";
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.top = "-10vh"; // start ABOVE the screen
+      container.appendChild(star);
+
+      // drift DOWNWARD
+      gsap.to(star, {
+        y: "110vh", // off screen bottom
+        duration: 5 + Math.random() * 10,
+        ease: "none",
+        onComplete: () => star.remove(),
+      });
+    };
+
+    // create a new star every 150 ms
+    const tl = gsap.timeline({ repeat: -1 });
+    tl.call(makeStar, null, "+=0.15");
+
+    return () => tl.kill();
+  }, []);
+
   return (
-    <div className="fixed inset-0 -z-10 pointer-events-none">
-      <StarLayer count={700} size={1} speed={50} />
-      <StarLayer count={200} size={2} speed={100} />
-      <StarLayer count={100} size={3} speed={150} />
-    </div>
+    <div
+      ref={containerRef}
+      className="fixed inset-0 -z-0 pointer-events-none"
+      style={{
+        background: "radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%)",
+      }}
+    />
   );
 }

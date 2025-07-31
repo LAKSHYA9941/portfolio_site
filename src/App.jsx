@@ -14,35 +14,32 @@ import Contacts from "./pages/Contacts";
 export default function App() {
   const router = createBrowserRouter([
     {
-      path: "",
+      path: "/",
       element: <LandingPage />,
-
     },
     {
-      path: "/",
+      path: "/app",
       element: <Layout />,
       children: [  
         {
-          path:"/contacts",
+          path:"/app/contacts",
           element:<Contacts />
         },
         {
-          path: "/projects",
+          path: "/app/projects",
           element: <Projects />
         },
         {
-          path: "/about",
+          path: "/app/about",
           element: <About />
         },
         {
-          path: "/techstack",
+          path: "/app/techstack",
           element: <Techstack />
         }
       ]
     },
-
   ]);
-
 
   return (
     <RouterProvider router={router} />
