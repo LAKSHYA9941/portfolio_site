@@ -1,29 +1,46 @@
-import React, { useState } from "react";
-import emailjs from "emailjs-com";
-import Button from "../components/Socials";
+// Contacts.jsx
+import React, { useRef, useEffect, useState } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import emailjs from 'emailjs-com';
+import Button from '../components/Socials';
 
 const Contacts = () => {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState("");
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState('');
+  const formBox = useRef(null);
+
+  /* ---------- GSAP spin-pop-drop ---------- */
+  useGSAP(() => {
+    gsap
+      .timeline()
+      .fromTo(
+        formBox.current,
+        { rotation: -180, scale: 0, y: -200 },
+        { rotation: 0, scale: 1.1, y: 0, duration: 0.7, ease: 'back.out(1.7)' }
+      )
+      .to(formBox.current, { scale: 1, y: 0, duration: 0.25, ease: 'power2.in' });
+  });
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus("Sending…");
+    setStatus('Sending…');
     emailjs
-      .send("service_xyzslbc", "template_uduuos4", form, "1MALs8pHBNOO1FLv4")
+      .send('service_xyzslbc', 'template_uduuos4', form, '1MALs8pHBNOO1FLv4')
       .then(() => {
-        setStatus("Sent! I’ll reply soon 👍");
-        setForm({ name: "", email: "", message: "" });
+        setStatus('Sent! I’ll reply soon 👍');
+        setForm({ name: '', email: '', message: '' });
       })
-      .catch(() => setStatus("Could not send. Try again?"));
+      .catch(() => setStatus('Could not send. Try again?'));
   };
 
   return (
     <section className="min-h-full flex items-center justify-center px-4 py-10">
       <form
+        ref={formBox}
         onSubmit={handleSubmit}
         className="w-full max-w-md space-y-6 bg-[#0d1117]/60 backdrop-blur-lg border border-[#27374D]/40 rounded-2xl p-8 shadow-[0_0_25px_-5px_#B13BFF40]"
       >
@@ -63,19 +80,16 @@ const Contacts = () => {
 
         <button
           type="submit"
-          disabled={status === "Sending…"}
+          disabled={status === 'Sending…'}
           className="w-full py-3 rounded-lg bg-gradient-to-r from-[#B13BFF] to-[#ff0088] text-white font-semibold hover:shadow-[0_0_15px_#ff0088] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {status === "Sending…" ? "Sending…" : "Send Message"}
+          {status === 'Sending…' ? 'Sending…' : 'Send Message'}
         </button>
 
-        {status && (
-          <p className="text-center text-sm text-gray-300 pt-2">{status}</p>
-        )}
-        <Button/>
+        {status && <p className="text-center text-sm text-gray-300 pt-2">{status}</p>}
+        <Button />
       </form>
     </section>
-
   );
 };
 
