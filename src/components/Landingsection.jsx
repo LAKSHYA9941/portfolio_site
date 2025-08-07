@@ -28,61 +28,57 @@ const LandingSection = () => {
     });
   }, []);
 
-return(
-  <>
-    <section className="min-h-full flex items-center justify-center px-6 py-6">
-      <div className="max-w-7xl w-full flex flex-col md:flex-row items-center md:items-center justify-between gap-8 md:gap-12">
-        {/* Left side - Text and buttons with margin */}
-        <div className="flex-1 md:ml-8 space-y-6 text-center md:text-left z-10">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
-            Hi, I'm{" "}
-            <span className="text-transparent bg-clip-text bg-slate-50 drop-shadow-[0_0_8px_#fff]">
-              Lakshya
-            </span>{" "}
-            <span className="inline-block animate-wave">👋</span>
-          </h1>
+  return (
+    <>
+      <section className="min-h-full flex items-center justify-center px-6 py-6">
+        <div className="max-w-7xl w-full flex flex-col md:flex-row items-center md:items-center justify-between gap-8 md:gap-12">
+          {/* Left side - Text and buttons with margin */}
+          <div className="flex-1 md:ml-8 space-y-6 text-center md:text-left z-10">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white">
+              Hi, I'm{" "}
+              <span className="text-transparent bg-clip-text bg-slate-50 drop-shadow-[0_0_8px_#fff]">
+                Lakshya
+              </span>{" "}
+              <span className="inline-block animate-wave">👋</span>
+            </h1>
 
-          <p className="text-lg sm:text-xl text-zinc-50 min-h-[4rem]"
-            ref={textRef}
-            style={{ whiteSpace: "pre-line" }} // allows <br/> effect
-          >
-            {/* I'm a full-stack developer
-            <br />
-            I'm passionate about creating innovative solutions
-            <br />
-            The code i write is not just functional, but also elegant and efficient. */}
-          </p>
+            <p className="text-lg sm:text-xl text-zinc-50 min-h-[4rem]"
+              ref={textRef}
+              style={{ whiteSpace: "pre-line" }} // allows <br/> effect
+            >
 
-          <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 pt-4">
-            <NavLink to="/app/contacts">
-              <StyledWrapper>
-                <div className="container">
-                  <button className="button">Contact Me</button>
-                </div>
-              </StyledWrapper>
-            </NavLink>
-            <NavLink to="/app/projects">
-              <StyledWrapper2>
-                <div className="container">
-                  <button className="button">explore Projects</button>
-                </div>
-              </StyledWrapper2>
-            </NavLink>
+            </p>
+
+            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 pt-4">
+              <NavLink to="/app/contacts">
+                <StyledWrapper>
+                  <div className="container">
+                    <button className="button">Contact Me</button>
+                  </div>
+                </StyledWrapper>
+              </NavLink>
+              <NavLink to="/projects">
+                <StyledWrapper2>
+                  <div className="container">
+                    <button className="button">explore Projects</button>
+                  </div>
+                </StyledWrapper2>
+              </NavLink>
+            </div>
+          </div>
+
+          {/* Right side - Image taking 3/4 of full height */}
+          <div className="flex-shrink-0 w-full md:w-auto flex justify-center">
+            <img
+              src={herowithbg}
+              alt="Lakshya Developer Illustration"
+              className="h-[50vh] md:h-[75vh] w-auto object-contain rounded-3xl drop-shadow-[0_0_8px_#fff]"
+            />
           </div>
         </div>
-
-        {/* Right side - Image taking 3/4 of full height */}
-        <div className="flex-shrink-0 w-full md:w-auto flex justify-center">
-          <img
-            src={herowithbg}
-            alt="Lakshya Developer Illustration"
-            className="h-[50vh] md:h-[75vh] w-auto object-contain rounded-3xl drop-shadow-[0_0_8px_#fff]"
-          />
-        </div>
-      </div>
-    </section>
-  </>
-)
+      </section>
+    </>
+  )
 };
 
 export default LandingSection;

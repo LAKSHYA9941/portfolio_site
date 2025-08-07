@@ -1,13 +1,10 @@
 // Navbar.jsx
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import { useClickAway } from 'react-use';
 import gsap from 'gsap';
 import logo from '../../assets/LOGO.png';
-
-
-
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -17,8 +14,12 @@ function Navbar() {
   const bar3 = useRef(null);
   const drawer = useRef(null);
 
-
-  
+  const links = [
+    { path: 'about',     label: 'About' },
+    { path: 'techstack', label: 'Tech Stack' },
+    { path: 'projects',  label: 'Projects' },
+    { path: 'contacts',   label: 'Contact' },
+  ];
 
   /* ---------- desktop stagger ---------- */
   useGSAP(() => {
@@ -38,11 +39,10 @@ function Navbar() {
     const tl = gsap.timeline({ defaults: { ease: 'power2.inOut' } });
 
     if (next) {
-      // hamburger → X
       tl.to(bar1.current, { y: 6, rotate: 45, duration: 0.3 })
         .to(bar2.current, { scaleX: 0, duration: 0.2 }, 0)
         .to(bar3.current, { y: -6, rotate: -45, duration: 0.3 }, 0)
-        .set(drawer.current, { display: 'block' })          // reveal drawer
+        .set(drawer.current, { display: 'block' })
         .fromTo(drawer.current, { x: '100%' }, { x: '0%', duration: 0.4 })
         .fromTo(
           '#mobileLink',
@@ -51,7 +51,6 @@ function Navbar() {
           '-=0.2'
         );
     } else {
-      // X → hamburger
       tl.to(bar1.current, { y: 0, rotate: 0, duration: 0.3 })
         .to(bar2.current, { scaleX: 1, duration: 0.2 }, 0)
         .to(bar3.current, { y: 0, rotate: 0, duration: 0.3 }, 0)
@@ -62,8 +61,6 @@ function Navbar() {
 
   useClickAway(menuRef, () => open && toggleMenu());
 
-  const links = ['about', 'techstack', 'projects'];
-
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md bg-[#0d1117]/40 border-b border-[#0d1117]/60">
       <nav ref={menuRef} className="px-4 lg:px-6 py-3">
@@ -71,20 +68,19 @@ function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img
-              id="navitem"
               src={logo}
               className="mr-3 h-12 w-auto rounded-lg border border-white/20 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-1 shadow-[0_4px_12px_#00000040,0_0_15px_#ffffff40] backdrop-blur-sm"
               alt="Logo"
             />
           </Link>
 
-          {/* Desktop links (≥700 px) */}
+          {/* Desktop links (≥ 700 px) */}
           <ul className="hidden md:flex flex-row space-x-2 md:space-x-4">
-            {links.map((path) => (
+            {links.map(({ path, label }) => (
               <li key={path}>
                 <NavLink
                   id="desktopNav"
-                  to={`/app/${path}`}
+                  to={path === 'projects'? `/projects`  : `/app/${path}`}
                   className={({ isActive }) =>
                     [
                       'relative px-3 py-2 text-xs sm:text-sm font-medium tracking-wide uppercase rounded-2xl outline-none transition-all duration-300 ease-out',
@@ -96,13 +92,13 @@ function Navbar() {
                     ].join(' ')
                   }
                 >
-                  {path === 'techstack' ? 'Tech Stack' : path}
+                  {label}
                 </NavLink>
               </li>
             ))}
           </ul>
 
-          {/* Burger (<700 px) */}
+          {/* Burger (< 700 px) */}
           <button
             className="md:hidden flex flex-col space-y-1.5 p-2"
             onClick={toggleMenu}
@@ -114,22 +110,22 @@ function Navbar() {
           </button>
         </div>
 
-        {/* Mobile drawer (<700 px) */}
+        {/* Mobile drawer (< 700 px) */}
         <div
           ref={drawer}
           className="fixed top-0 right-0 h-screen w-64 bg-[#0d1117]/90 backdrop-blur-xl border-l border-[#0d1117]/60 hidden lg:hidden"
           style={{ display: 'none' }}
         >
           <ul className="flex flex-col items-center justify-center h-full space-y-8">
-            {links.map((path) => (
+            {links.map(({ path, label }) => (
               <li key={path}>
                 <NavLink
                   id="mobileLink"
-                  to={`/app/${path}`}
+                  to={path === 'projects' ? `/projects` : `/app/${path}`}
                   onClick={toggleMenu}
                   className="text-lg uppercase text-slate-300 hover:text-white"
                 >
-                  {path === 'techstack' ? 'Tech Stack' : path}
+                  {label}
                 </NavLink>
               </li>
             ))}

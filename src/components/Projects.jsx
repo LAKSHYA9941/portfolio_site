@@ -5,6 +5,8 @@ import { SiMongodb, SiExpress, SiReact, SiTailwindcss, SiFirebase, SiTypescript 
 import Notemakerimg from '../assets/notemakeimg.jpeg'
 import Chaipng from '../assets/chaiproject.png'
 import Currconv from '../assets/currency_converter.png';
+import FloatingBalls from './Floatingballs';
+import Navbar from './navbar/Navbar';
 
 const projects = [
   {
@@ -66,80 +68,87 @@ const projects = [
 
 export default function Projects() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
-      className="max-w-5xl mx-auto px-4 py-6 overflow-y-auto scrollbar-hide"
-    >
+    <>
+      <Navbar />
+      <FloatingBalls count={10} />
 
-      <div className="space-y-6">
-        {projects.map((p) => (
-          <motion.article
-            key={p.name}
-            whileHover={{ scale: 1.01 }}
-            className="group grid md:grid-cols-5 gap-6 items-center"
-          >
-            {/* Left: Image */}
-            <div className="md:col-span-2 rounded-xl overflow-hidden shadow-md">
-              {p.image && (
-                <img
-                  src={p.image}
-                  alt={p.name}
-                  className="w-full h-auto object-cover aspect-video"
-                />
-              )}
-            </div>
 
-            {/* Right: Content */}
-            <div className="md:col-span-3 space-y-3">
-              <h3 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
-                {p.name}
-              </h3>
-              <p className="text-slate-600 dark:text-slate-400 text-sm">
-                {p.tagline}
-              </p>
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+        className="max-w-full mx-auto px-4 py-6 overflow-y-auto scrollbar-hide"
+      >
 
-              <ul className="text-sm text-slate-700 dark:text-slate-300 space-y-1 list-disc list-inside">
-                {p.bullets.map((b) => (
-                  <li key={b}>{b}</li>
-                ))}
-              </ul>
 
-              <div className="flex items-center gap-x-3 text-xl">
-                {p.stack.map((s) => (
-                  <span key={s.name} title={s.name} className="inline-block group bg-gradient-to-b from-stone-300/40 to-transparent p-1 rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.5)] active:shadow-[0_0px_1px_rgba(0,0,0,0.5)] active:scale-[0.995] hover:bg-gradient-to-t hover:from-stone-200/40 hover:to-white/80 transition-all duration-300">
-                    {s.icon}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex gap-x-4">
-                {p.live && (
-                  <a
-                    href={p.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
-                  >
-                    <FiExternalLink /> Live Demo
-                  </a>
-                )}
-                {p.repo && (
-                  <a
-                    href={p.repo}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm font-medium text-slate-600 dark:text-slate-400 hover:underline"
-                  >
-                    <FiGithub /> Source
-                  </a>
+        <div className="space-y-6">
+          {projects.map((p) => (
+            <motion.article
+              key={p.name}
+              whileHover={{ scale: 1.01 }}
+              className="group grid md:grid-cols-5 gap-6 items-center"
+            >
+              {/* Left: Image */}
+              <div className="md:col-span-2 rounded-xl overflow-hidden shadow-md">
+                {p.image && (
+                  <img
+                    src={p.image}
+                    alt={p.name}
+                    className="w-full h-auto object-cover aspect-video"
+                  />
                 )}
               </div>
-            </div>
-          </motion.article>
-        ))}
-      </div>
-    </motion.div>
+
+              {/* Right: Content */}
+              <div className="md:col-span-3 space-y-3">
+                <h3 className="text-2xl font-semibold text-slate-800 dark:text-slate-100">
+                  {p.name}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm">
+                  {p.tagline}
+                </p>
+
+                <ul className="text-sm text-slate-700 dark:text-slate-300 space-y-1 list-disc list-inside">
+                  {p.bullets.map((b) => (
+                    <li key={b}>{b}</li>
+                  ))}
+                </ul>
+
+                <div className="flex items-center gap-x-3 text-xl">
+                  {p.stack.map((s) => (
+                    <span key={s.name} title={s.name} className="inline-block group bg-gradient-to-b from-stone-300/40 to-transparent p-1 rounded-lg shadow-[0_1px_3px_rgba(0,0,0,0.5)] active:shadow-[0_0px_1px_rgba(0,0,0,0.5)] active:scale-[0.995] hover:bg-gradient-to-t hover:from-stone-200/40 hover:to-white/80 transition-all duration-300">
+                      {s.icon}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex gap-x-4">
+                  {p.live && (
+                    <a
+                      href={p.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline"
+                    >
+                      <FiExternalLink /> Live Demo
+                    </a>
+                  )}
+                  {p.repo && (
+                    <a
+                      href={p.repo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-slate-600 dark:text-slate-400 hover:underline"
+                    >
+                      <FiGithub /> Source
+                    </a>
+                  )}
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </motion.div>
+    </>
   );
 }

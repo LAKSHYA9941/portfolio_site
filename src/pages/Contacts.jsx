@@ -17,9 +17,9 @@ const Contacts = () => {
       .fromTo(
         formBox.current,
         { rotation: -180, scale: 0, y: -200 },
-        { rotation: 0, scale: 1.1, y: 0, duration: 0.7, ease: 'back.out(1.7)' }
+        { rotation: 0, scale: 1, y: 0, duration: 1, ease: 'back.out(1.7)' }
       )
-      .to(formBox.current, { scale: 1, y: 0, duration: 0.25, ease: 'power2.in' });
+      .to(formBox.current, { scale: 1, y: 0, duration: 0.25, ease: 'power2.out' });
   });
 
   const handleChange = (e) =>
@@ -55,7 +55,7 @@ const Contacts = () => {
           required
           value={form.name}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-lg bg-[#1c1f26] text-gray-100 placeholder-gray-400 border border-[#27374D]/60 focus:border-[#B13BFF] focus:outline-none focus:ring-2 focus:ring-[#B13BFF]/70 transition"
+          className="w-full px-4 py-2 rounded-lg bg-[#1c1f26] text-gray-100 placeholder-gray-400 border border-[#27374D]/60 focus:border-[#B13BFF] focus:outline-none focus:ring-2 focus:ring-[#B13BFF]/70 transition"
         />
 
         <input

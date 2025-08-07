@@ -9,12 +9,12 @@ export default function PageReveal({ children }) {
     gsap.fromTo(
       ref.current,
       { clipPath: 'circle(0% at 50% 50%)' },
-      { clipPath: 'circle(150% at 50% 50%)', duration: 1.2, ease: 'bounce.inOut' },
+      { clipPath: 'circle(150% at 50% 50%)', duration: 1.2, ease: 'power4.inOut' },
     );
   }, [children]);
 
   return (
-    <div ref={ref} className="w-full h-full bg-black/10 ">
+    <div ref={ref} className="w-full h-full  ">
       {children}
     </div>
   );

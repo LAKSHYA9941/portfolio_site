@@ -19,17 +19,18 @@ export default function App() {
       element: <LandingPage />,
     },
     {
+      path: "/projects",
+      element: <PageReveal> <Projects /></PageReveal>
+    },
+    {
       path: "/app",
       element: <Layout />,
       children: [
         {
           path: "/app/contacts",
-          element: <PageReveal><Contacts /></PageReveal>
+          element: <Contacts />
         },
-        {
-          path: "/app/projects",
-          element: <PageReveal> <Projects /></PageReveal>
-        },
+
         {
           path: "/app/about",
           element: <PageReveal><About /></PageReveal>

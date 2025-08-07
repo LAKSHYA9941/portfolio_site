@@ -1,95 +1,131 @@
-import React from 'react';
+// Techstack.jsx
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import techsvg from '../assets/techsvg.svg'
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
 
-const skillSet = {
-    Languages: [
-        { name: 'JavaScript', glow: '#f7df1e' },
-        { name: 'TypeScript', glow: '#007acc' },
-        { name: 'Python', glow: '#FFCC00' },
-        { name: 'HTML', glow: '#e34f26' },
-        { name: 'CSS', glow: '#1572b6' },
-        { name: 'SQL', glow: '#336791' },
-    ],
-    Frontend: [
-        { name: 'React.js', glow: '#61dafb' },
-        { name: 'Tailwind', glow: '#06b6d4' },
-        { name: 'Vite', glow: '#a855f7' },
-        { name: 'Responsive Design', glow: '#ec4899' },
-    ],
-    Backend: [
-        { name: 'Node.js', glow: '#339933' },
-        { name: 'Express.js', glow: '#7F8CAA' },
-        { name: 'MongoDB', glow: '#47a248' },
-        { name: 'Firebase', glow: '#ffca28' },
-        { name: 'REST APIs', glow: '#6366f1' },
-    ],
-    Tools: [
-        { name: 'Git', glow: '#f05032' },
-        { name: 'GitHub', glow: '#ffffff' },
-        { name: 'Axios', glow: '#5a29e4' },
-        { name: 'Postman', glow: '#ff6c37' },
-        { name: 'JWT', glow: '#00bfff' },
-        { name: 'DBMS & OOP', glow: '#00b894' },
-    ],
+/* ---------- split lists ---------- */
+const stripTop = [
+    /* Languages */
+    { name: 'JavaScript', file: 'js.svg', color: '#f7df1e' },
+    { name: 'TypeScript', file: 'ts.svg', color: '#007acc' },
+    { name: 'Python', file: 'python.svg', color: '#3776ab' },
+    { name: 'HTML', file: 'html.svg', color: '#e34f26' },
+    { name: 'CSS', file: 'css.svg', color: '#1572b6' },
+    { name: 'SQL', file: 'sql.svg', color: '#336791' },
+
+    /* Frontend */
+    { name: 'React', file: 'react.svg', color: '#61dafb' },
+    { name: 'Next', file: 'nextjs.svg', color: '#ffffff' },
+    { name: 'Tailwind', file: 'tailwind.svg', color: '#06b6d4' },
+    { name: 'Vite', file: 'vite.svg', color: '#a855f7' },
+    { name: 'Redux', file: 'redux.svg', color: '#764abc' },
+];
+
+const stripBottom = [
+    /* Backend */
+    { name: 'Node', file: 'nodejs.svg', color: '#339933' },
+    { name: 'Express', file: 'express.svg', color: '#7F8CAA' },
+    { name: 'MongoDB', file: 'mongodb.svg', color: '#47a248' },
+    { name: 'Firebase', file: 'firebase.svg', color: '#ffca28' },
+    { name: 'REST', file: 'rest.svg', color: '#6366f1' },
+
+    /* Tools */
+    { name: 'Git', file: 'git.svg', color: '#f05032' },
+    { name: 'GitHub', file: 'github.svg', color: '#ffffff' },
+    { name: 'Axios', file: 'axios.svg', color: '#5a29e4' },
+    { name: 'Postman', file: 'postman.svg', color: '#ff6c37' },
+];
+
+
+/* ---------- Logo ---------- */
+// const Logo = ({ src, color, name }) => (
+//     <motion.div
+//         className="w-12 h-48 md:w-24 md:h-16 mx-2 md:mx-4 flex-shrink-0 cursor-pointer"
+//         whileHover={{ scale: 1.15, rotate: 5, y: -6, filter: `drop-shadow(0 0 12px ${color})` }}
+//         transition={{ type: 'spring', stiffness: 300, damping: 10 }}
+//     >
+//         <img
+//             src={`/${src}`}
+//             alt={name}
+//             className="w-full h-full object-contain"
+//             onError={(e) => (e.target.style.display = 'none')}
+//         />
+//     </motion.div>
+// );
+
+const Logo = ({ src, color, name }) => (
+    <motion.div
+        className="
+      w-16 h-16  
+      md:w-28 md:h-28      
+      mx-2 md:mx-4 flex-shrink-0 cursor-pointer"
+        whileHover={{ scale: 1, rotate: 5, y: -6, filter: `drop-shadow(0 0 8px ${color})` }}
+        transition={{ type: 'spring', stiffness: 300, damping: 10 }}
+    >
+        <img
+            src={`/${src}`}
+            alt={name}
+            className="w-full h-full object-contain"
+            onError={(e) => (e.target.style.display = 'none')}
+        />
+    </motion.div>
+);
+
+
+/* ---------- Pre-filled Strip (no blank space) ---------- */
+const Strip = ({ direction, logos }) => {
+    const stripRef = useRef(null);
+    // mirror the list so the strip is full on first paint
+    const mirrored = [...logos, ...logos, ...logos, ...logos];
+
+    const LOGO_W = 96;
+    const GAP = 32;
+    const distance = mirrored.length * (LOGO_W + GAP);
+
+    useGSAP(() => {
+        if (!stripRef.current) return;
+        const tl = gsap.timeline({ repeat: -1 });
+
+        if (direction === 'rtl') {
+            tl.fromTo(stripRef.current, { x: 0 }, { x: -distance, duration: 90, ease: 'none' });
+        } else {
+            tl.fromTo(stripRef.current, { x: -distance }, { x: 0, duration: 90, ease: 'none' });
+        }
+
+        const pause = () => tl.pause();
+        const play = () => tl.play();
+        stripRef.current.addEventListener('mouseenter', pause);
+        stripRef.current.addEventListener('mouseleave', play);
+        return () => tl.kill();
+    }, [direction, distance]);
+
+    return (
+        <div className="w-full h-40 md:h-48 overflow-hidden py-4 md:py-6">
+            <div
+                ref={stripRef}
+                className="flex whitespace-nowrap"
+                style={{ width: direction === 'rtl' ? '400%' : '400%' }}
+            >
+                {mirrored.map((t) => (
+                    <Logo key={`${direction}-${t.name}`} src={t.file} color={t.color} name={t.name} />
+                ))}
+            </div>
+        </div>
+    );
 };
-
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.08 },
-    },
-};
-
-const badgeVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.9 },
-    visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring', stiffness: 180 } },
-};
-
+/* ---------- Main ---------- */
 export default function Techstack() {
     return (
-        <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-
-            className=" mx-auto max-w-fit p-8 overflow-y-auto scrollbar-hide"
-        >
-            <div className="space-y-8">
-                {/* <h2 className="text-4xl font-bold text-center text-slate-900 dark:text-slate-100">
-                    Technical Skills
-                </h2> */}
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {Object.entries(skillSet).map(([category, skills]) => (
-                        <section key={category} className="space-y-4">
-                            <h3 className="text-2xl font-semibold text-slate-800 dark:text-slate-200">
-                                {category}
-                            </h3>
-
-                            <div className="flex flex-wrap gap-4">
-                                {skills.map(({ name, glow }) => (
-                                    <motion.div
-                                        key={name}
-                                        variants={badgeVariants}
-                                        whileHover={{
-                                            scale: 1.15,
-                                            filter: `drop-shadow(0 0 14px ${glow}) drop-shadow(0 0 14px ${glow}66)`,
-                                            transition: { duration: 0.25 },
-                                        }}
-                                        className="px-4 py-2 rounded-full bg-slate-800/30 border-2 border-slate-700/50 text-slate-100 cursor-default group hover:bg-slate-800/50 transition-colors duration-300"
-                                        style={{ borderColor: glow }}
-                                    >
-                                        {name}
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </section>
-                    ))}
-                </div>
+        <div className="relative min-h-full overflow-hidden">
+            <Strip direction="ltr" logos={stripTop} />
+            {/* existing content */}
+            <div className="relative z-10 flex items-center justify-center py-20">
+                {/* …your existing grid… */}
             </div>
-        </motion.div>
+            <Strip direction="rtl" logos={stripBottom} />
+        </div>
     );
 }
